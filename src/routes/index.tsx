@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Wifi, Monitor, GraduationCap, LayoutDashboard, FileText, ScreenShare, Cast, Projector, Mail, Cloud, Shield, Headphones } from "lucide-react";
+import { Wifi, Monitor, GraduationCap, LayoutDashboard, FileText, ScreenShare, Cast, Projector, Mail, Cloud, Shield, Headphones, Twitter, Github, Linkedin, Youtube, Facebook, Instagram } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -122,6 +122,124 @@ function Index() {
           ))}
         </div>
       </section>
+
+      {/* Logo marquee */}
+      <section className="border-y border-neutral-200 bg-white py-10 overflow-hidden">
+        <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
+          Trusted systems & partners
+        </p>
+        <div className="group relative flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex shrink-0 animate-[marquee_30s_linear_infinite] group-hover:[animation-play-state:paused]">
+            {[...ICONS, ...ICONS].map((it, i) => (
+              <div key={`m-${i}`} className="mx-6 flex items-center gap-3 whitespace-nowrap">
+                <span className={`flex h-10 w-10 items-center justify-center rounded-[12px] ring-1 ring-black/5 ${it.bg}`}>
+                  <it.Icon className={`h-5 w-5 ${it.fg}`} strokeWidth={2.2} />
+                </span>
+                <span className="text-sm font-semibold text-neutral-700">{it.label}</span>
+              </div>
+            ))}
+          </div>
+          <div aria-hidden="true" className="flex shrink-0 animate-[marquee_30s_linear_infinite] group-hover:[animation-play-state:paused]">
+            {[...ICONS, ...ICONS].map((it, i) => (
+              <div key={`m2-${i}`} className="mx-6 flex items-center gap-3 whitespace-nowrap">
+                <span className={`flex h-10 w-10 items-center justify-center rounded-[12px] ring-1 ring-black/5 ${it.bg}`}>
+                  <it.Icon className={`h-5 w-5 ${it.fg}`} strokeWidth={2.2} />
+                </span>
+                <span className="text-sm font-semibold text-neutral-700">{it.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <style>{`
+          @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+          }
+        `}</style>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-slate-950 text-white">
+        <div className="mx-auto max-w-7xl px-6 py-16">
+          <div className="grid grid-cols-2 gap-10 md:grid-cols-4 lg:grid-cols-5">
+            <div className="col-span-2 lg:col-span-2">
+              <div className="flex items-center gap-2">
+                <span className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-white text-slate-950 font-extrabold">IT</span>
+                <span className="text-lg font-semibold">IT Department</span>
+              </div>
+              <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
+                A central portal for IT services, systems and support — connecting 12 departments
+                with 50+ tools they use every day.
+              </p>
+              <div className="mt-6 flex items-center gap-3">
+                <a href="#" aria-label="Email" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10 transition hover:bg-white/10">
+                  <Mail className="h-4 w-4" />
+                </a>
+                <a href="#" aria-label="Helpdesk" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10 transition hover:bg-white/10">
+                  <Headphones className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold uppercase tracking-wider">Product</h3>
+              <ul className="mt-4 space-y-3 text-sm text-slate-400">
+                <li><a href="#" className="transition hover:text-white">Systems</a></li>
+                <li><a href="#" className="transition hover:text-white">Wi-Fi & Network</a></li>
+                <li><a href="#" className="transition hover:text-white">Cloud Drive</a></li>
+                <li><a href="#" className="transition hover:text-white">Email</a></li>
+                <li><a href="#" className="transition hover:text-white">Security</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold uppercase tracking-wider">Company</h3>
+              <ul className="mt-4 space-y-3 text-sm text-slate-400">
+                <li><a href="#" className="transition hover:text-white">About</a></li>
+                <li><a href="#" className="transition hover:text-white">Departments</a></li>
+                <li><a href="#" className="transition hover:text-white">Careers</a></li>
+                <li><a href="#" className="transition hover:text-white">News</a></li>
+                <li><a href="#" className="transition hover:text-white">Contact</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold uppercase tracking-wider">Legal</h3>
+              <ul className="mt-4 space-y-3 text-sm text-slate-400">
+                <li><a href="#" className="transition hover:text-white">Privacy</a></li>
+                <li><a href="#" className="transition hover:text-white">Terms</a></li>
+                <li><a href="#" className="transition hover:text-white">Acceptable Use</a></li>
+                <li><a href="#" className="transition hover:text-white">Cookies</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-14 flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-8 md:flex-row">
+            <p className="text-xs text-slate-500">
+              © {new Date().getFullYear()} IT Department. All rights reserved.
+            </p>
+            <div className="flex items-center gap-2">
+              {[
+                { Icon: Twitter, label: "Twitter" },
+                { Icon: Github, label: "GitHub" },
+                { Icon: Linkedin, label: "LinkedIn" },
+                { Icon: Youtube, label: "YouTube" },
+                { Icon: Facebook, label: "Facebook" },
+                { Icon: Instagram, label: "Instagram" },
+              ].map(({ Icon, label }) => (
+                <a
+                  key={label}
+                  href="#"
+                  aria-label={label}
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10 text-slate-300 transition hover:bg-white hover:text-slate-950"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
