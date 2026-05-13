@@ -236,7 +236,7 @@ function Index() {
         {/* Center content */}
         <div className="relative z-10 text-center">
           <p className="mb-4 text-base text-neutral-500 font-bold">ONE STOP CENTER</p>
-          <h1 className="font-basic text-5xl font-extrabold leading-[0.95] tracking-tight text-neutral-900 sm:text-6xl md:text-7xl lg:text-8xl">
+          <h1 className="font-sans text-4xl font-bold leading-[0.95] tracking-tight text-neutral-900 sm:text-6xl md:text-7xl lg:text-8xl">
             INFORMATION TECHNOLOGY DEPARTMENT
           </h1>
           <p className="mt-6 text-lg font-medium text-neutral-600 md:text-xl">
@@ -284,7 +284,7 @@ function Index() {
 
       <footer className="mx-auto max-w-7xl px-6 pb-8">
         <div className="text-right text-xs font-medium text-neutral-400">
-          Created by Information Technology Department RCMP
+          © 2026 Information Technology Department RCMP
         </div>
       </footer>
     </main>
