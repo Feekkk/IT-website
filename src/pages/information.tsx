@@ -38,8 +38,7 @@ const sections: Section[] = [
     description: "Guidance and usage details for the IT department wireless microphones.",
     content: (
       <p>
-        Please follow the guideline before using the IT department microphone for any
-        lecture or event. Improper handling may result in audio issues or equipment damage.
+        Improper handling may result in audio issues or equipment damage.
       </p>
     ),
     image: "/mic-guide.jpeg",
