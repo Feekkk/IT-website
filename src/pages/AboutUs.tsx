@@ -56,12 +56,12 @@ export default function AboutUs() {
           </Link>
 
           <h1 className="mt-10 text-5xl font-extrabold tracking-tight text-neutral-900 md:text-6xl">
-            ABOUT
+            OUR TEAM
           </h1>
 
           <div className="mt-10 max-w-2xl rounded-2xl border border-neutral-200 bg-white p-7">
             <div className="text-sm font-bold text-neutral-900">{topic.title}</div>
-            <p className="mt-2 text-sm font-bold leading-relaxed text-neutral-600">{topic.description}</p>
+            <p className="mt-2 text-sm font-semibold leading-relaxed text-neutral-600">{topic.description}</p>
           </div>
         </div>
 

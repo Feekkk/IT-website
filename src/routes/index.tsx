@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { Wifi, Monitor, GraduationCap, LayoutDashboard, Projector, Cloud, Headphones } from "lucide-react";
+import { Wifi, Monitor, GraduationCap, LayoutDashboard, Projector, Cloud, Headphones, Megaphone } from "lucide-react";
 import { MaxhubSection } from "../components/section/Maxhub";
 import { SystemSection } from "../components/section/System";
 
@@ -25,7 +25,7 @@ type FloatIcon = {
 };
 
 const ICONS: FloatIcon[] = [
-  { Icon: Wifi, label: "Wi-Fi", href: "#", bg: "bg-[#0A84FF]", fg: "text-white", top: "10%", left: "8%", delay: "0s", duration: "7s" },
+  { Icon: Megaphone, label: "Info", href: "/information", bg: "bg-[#0A84FF]", fg: "text-white", top: "10%", left: "8%", delay: "0s", duration: "7s" },
   { Icon: Monitor, label: "Systems", href: "#", bg: "bg-neutral-900", fg: "text-white", top: "6%", left: "28%", delay: "1.2s", duration: "8s" },
   { Icon: GraduationCap, label: "UniKL VLE", href: "https://vle.unikl.edu.my/", bg: "bg-[#FFCC00]", fg: "text-neutral-900", top: "14%", left: "70%", delay: "0.6s", duration: "9s" },
   { Icon: LayoutDashboard, label: "Portal", href: "https://cas.unikl.edu.my/", bg: "bg-[#FF3B30]", fg: "text-white", top: "8%", left: "88%", delay: "2s", duration: "7.5s" },
@@ -125,7 +125,7 @@ function Index() {
           />
   
         <nav className="hidden items-center gap-7 text-sm font-medium text-neutral-700 md:flex">
-          <a href="#" className="hover:text-neutral-900">Services</a>
+          <Link to="/information" className="hover:text-neutral-900">Info</Link>
           <div className="relative group">
             <button
               type="button"
@@ -143,6 +143,7 @@ function Index() {
               <a href="https://nims.rcmp.edu.my" className="block px-4 py-2 hover:bg-neutral-100">Nexcheck</a>
             </div>
           </div>
+          
           <Link to="/about" className="hover:text-neutral-900">About us</Link>
         </nav>
 
@@ -203,6 +204,14 @@ function Index() {
                 </a>
               </div>
             ) : null}
+
+            <Link
+              to="/information"
+              className="block rounded-xl px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Information
+            </Link>
 
             <Link
               to="/about"
