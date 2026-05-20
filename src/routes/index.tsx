@@ -244,7 +244,7 @@ function Index() {
 
         {/* Center content */}
         <div className="relative z-10 text-center">
-          <p className="mb-4 text-base text-neutral-500 font-bold">ONE STOP CENTER</p>
+          <p className="mb-4 text-neutral-500 font-bold text-3xl">ONE STOP CENTER</p>
           <h1 className="font-sans text-4xl font-bold leading-[0.95] tracking-tight text-neutral-900 sm:text-6xl md:text-7xl lg:text-8xl">
             INFORMATION TECHNOLOGY DEPARTMENT
           </h1>
