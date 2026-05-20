@@ -119,7 +119,7 @@ function Index() {
       <header className="relative z-20 mx-auto flex max-w-5xl items-center justify-between px-6 pt-6">
 
           <img
-            src="https://nexcheck.rcmp.edu.my/img/Logo-UniKL-PCM.jpg"
+            src="/unikl-official.png"
             alt="UniKL Logo"
             className="h-8 w-auto object-contain md:h-10"
           />
