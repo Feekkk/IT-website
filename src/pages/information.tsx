@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Mic, Projector, Wifi } from "lucide-react";
+import { Mic, Play, Projector, Wifi } from "lucide-react";
 
 type Section = {
   id: string;
   title: string;
   meta: string;
-  icon: "mic" | "projector" | "wifi";
+  icon: "mic" | "projector" | "wifi" | "video";
   iconBg: string;
   iconColor: string;
   tagBg: string;
@@ -15,12 +15,14 @@ type Section = {
   description: string;
   content: React.ReactNode;
   image?: string;
+  video?: string;
 };
 
 const iconMap = {
   mic: Mic,
   projector: Projector,
   wifi: Wifi,
+  video: Play,
 };
 
 const sections: Section[] = [
@@ -42,6 +44,26 @@ const sections: Section[] = [
       </p>
     ),
     image: "/mic-guide.jpeg",
+  },
+  {
+    id: "wow-video",
+    title: "WOW Video",
+    meta: "Department introduction for new students",
+    icon: "video",
+    iconBg: "#e0f2fe",
+    iconColor: "#0369a1",
+    tagBg: "#e0f2fe",
+    tagColor: "#0369a1",
+    tagIcon: "▶",
+    tagLabel: "For incoming students",
+    description:
+      "A short video introduction to help new incoming students get to know the IT department.",
+    content: (
+      <p>
+        Watch this overview to learn what the IT department offers and how we support students on campus.
+      </p>
+    ),
+    video: "/wow.mp4",
   },
 ];
 
@@ -117,6 +139,22 @@ function InfoCard({ section }: { section: Section }) {
                     alt={section.title}
                     className="block w-full object-contain"
                   />
+                </div>
+              </div>
+            )}
+
+            {section.video && (
+              <div className="mt-4 flex justify-center">
+                <div className="w-full overflow-hidden rounded-2xl border border-border bg-muted/30">
+                  <video
+                    src={section.video}
+                    controls
+                    playsInline
+                    preload="metadata"
+                    className="block aspect-video w-full bg-black object-contain"
+                  >
+                    Your browser does not support video playback.
+                  </video>
                 </div>
               </div>
             )}

@@ -1,6 +1,6 @@
 const VENUQUIP_URL = "https://vequip.rcmp.edu.my";
 const NEXCHECK_URL = "https://nims.rcmp.edu.my";
-const HELPDESK_URL = "http://helpdesk.rcmp.unikl.edu.my";
+const HELPDESK_URL = "http://rush.rcmp.edu.my";
 
 export function SystemSection({ onClose }: { onClose: () => void }) {
   return (
@@ -66,7 +66,7 @@ export function SystemSection({ onClose }: { onClose: () => void }) {
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <div className="text-sm font-semibold text-neutral-900">Helpdesk (Coming Soon)</div>
+                <div className="text-sm font-semibold text-neutral-900">Helpdesk</div>
                 <div className="mt-1 text-sm text-neutral-600">Submit and track complaints.</div>
               </div>
               <span className="text-sm font-semibold text-neutral-900 group-hover:translate-x-0.5 transition">

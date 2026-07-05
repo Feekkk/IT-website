@@ -32,7 +32,7 @@ const ICONS: FloatIcon[] = [
   { imgSrc: "/maxhub.png", imgAlt: "MaxHub", iconClassName: "invert", label: "MaxHub Connect", href: "#", bg: "bg-neutral-950", fg: "text-white", top: "78%", left: "10%", delay: "0.9s", duration: "8s" },
   { Icon: Projector, label: "Epson iProjection", href: "https://epson.com/support/wireless-projector-support", bg: "bg-white border border-neutral-200", fg: "text-neutral-900", top: "82%", left: "30%", delay: "1.5s", duration: "7s" },
   { Icon: Cloud, label: "Cloud Drive", href: "https://www.office.com/", bg: "bg-[#0061FE]", fg: "text-white", top: "76%", left: "84%", delay: "2.2s", duration: "8.2s" },
-  { Icon: Headphones, label: "Helpdesk", href: "http://helpdesk.rcmp.unikl.edu.my", bg: "bg-[#FF9500]", fg: "text-white", top: "70%", left: "70%", delay: "1.7s", duration: "8.7s" },
+  { Icon: Headphones, label: "Helpdesk", href: "http://rush.rcmp.edu.my", bg: "bg-[#FF9500]", fg: "text-white", top: "70%", left: "70%", delay: "1.7s", duration: "8.7s" },
 ];
 
 function FloatingIcon({
@@ -157,7 +157,7 @@ function Index() {
           >
             Menu
           </button>
-          <a href="http://helpdesk.rcmp.unikl.edu.my" className="rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white hover:bg-neutral-800">
+          <a href="http://rush.rcmp.edu.my" className="rounded-full bg-neutral-900 px-4 py-2 text-sm font-semibold text-white hover:bg-neutral-800">
             Get help
           </a>
         </div>
