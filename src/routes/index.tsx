@@ -106,6 +106,7 @@ function Index() {
   };
 
   return (
+    <>
     <main className="relative min-h-screen overflow-hidden bg-white">
       <style>{`
         @keyframes float {
@@ -248,5 +249,14 @@ function Index() {
         </div>
       </footer>
     </main>
+
+    <Link
+      to="/feedback"
+      className="fixed right-0 top-1/2 z-50 flex -translate-y-1/2 items-center rounded-l-md bg-[#0077C8] px-2.5 py-4 text-sm font-semibold text-white shadow-md transition hover:bg-[#0066AD]"
+      aria-label="Send Feedback"
+    >
+      <span className="rotate-180 [writing-mode:vertical-rl]">Send Feedback</span>
+    </Link>
+    </>
   );
 }
