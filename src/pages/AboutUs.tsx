@@ -148,9 +148,17 @@ export default function AboutUs() {
         </section>
 
         <footer className="border-t border-neutral-200/80 pb-6 pt-8">
-          <p className="text-right text-xs font-medium text-neutral-400">
-            © 2026 Information Technology Department RCMP
-          </p>
+          <div className="flex flex-col items-end gap-2">
+            <p className="text-right text-xs font-medium text-neutral-400">
+              © 2026 Information Technology Department RCMP
+            </p>
+            <Link
+              to="/login"
+              className="text-right text-xs font-medium text-neutral-400 transition hover:text-neutral-700"
+            >
+              Are you ITD staff?
+            </Link>
+          </div>
         </footer>
       </div>
 
