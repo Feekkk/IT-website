@@ -80,7 +80,6 @@ function Index() {
   const [showMaxhub, setShowMaxhub] = React.useState(false);
   const [showSystems, setShowSystems] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const [mobileSystemsOpen, setMobileSystemsOpen] = React.useState(false);
 
   const openMaxhub = () => {
     setShowMaxhub(true);
@@ -126,24 +125,6 @@ function Index() {
   
         <nav className="hidden items-center gap-7 text-sm font-medium text-neutral-700 md:flex">
           <Link to="/information" className="hover:text-neutral-900">Info</Link>
-          <div className="relative group">
-            <button
-              type="button"
-              className="hover:text-neutral-900 focus:outline-none flex items-center gap-1"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Systems
-              <svg className="ml-1 h-4 w-4" viewBox="0 0 20 20" fill="none">
-                <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-            <div className="absolute left-0 mt-2 min-w-[160px] rounded-md bg-white py-2 shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity text-neutral-700 z-20 ring-1 ring-black/5">
-              <a href="https://vequip.rcmp.edu.my" className="block px-4 py-2 hover:bg-neutral-100">VenuQuip</a>
-              <a href="https://nims.rcmp.edu.my" className="block px-4 py-2 hover:bg-neutral-100">Nexcheck</a>
-            </div>
-          </div>
-          
           <Link to="/about" className="hover:text-neutral-900">About us</Link>
         </nav>
 
@@ -174,36 +155,6 @@ function Index() {
             >
               Services
             </a>
-
-            <button
-              type="button"
-              onClick={() => setMobileSystemsOpen((v) => !v)}
-              className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50"
-              aria-expanded={mobileSystemsOpen}
-            >
-              Systems
-              <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none">
-                <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-            {mobileSystemsOpen ? (
-              <div className="mt-1 space-y-1 pl-2">
-                <a
-                  href="https://vequip.rcmp.edu.my"
-                  className="block rounded-xl px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  VenuQuip
-                </a>
-                <a
-                  href="https://nims.rcmp.edu.my"
-                  className="block rounded-xl px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Nexcheck
-                </a>
-              </div>
-            ) : null}
 
             <Link
               to="/information"

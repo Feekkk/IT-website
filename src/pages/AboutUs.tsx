@@ -1,95 +1,165 @@
 import React from "react";
 import { Link } from "@tanstack/react-router";
+import { Headphones, Monitor, Network, Projector } from "lucide-react";
 
-type AboutTopic = {
-  key: "av" | "network" | "operation" | "system-dev";
-  label: string;
-  title: string;
-  description: string;
-};
-
-const TOPICS: AboutTopic[] = [
+const FOCUS = [
   {
     key: "av",
-    label: "AUDIO & VISUAL",
+    index: "01",
     title: "Audio & Visual",
     description:
-      "Support for meeting room setups, displays, projectors, microphones, and presentation equipment.",
+      "Meeting rooms, displays, projectors, microphones, and presentation setups kept ready for teaching and events.",
+    accent: "#0A84FF",
+    Icon: Projector,
   },
   {
     key: "network",
-    label: "NETWORK",
+    index: "02",
     title: "Network",
     description:
-      "Connectivity support for Wi‑Fi, LAN, and basic troubleshooting to keep users online and productive.",
-  },
-  {
-    key: "operation",
-    label: "OPERATION",
-    title: "IT Operations",
-    description:
-      "Day‑to‑day IT support including accounts, endpoints, software requests, and service coordination.",
+      "Wi‑Fi and LAN support with practical troubleshooting so students and staff stay connected on campus.",
+    accent: "#FF9500",
+    Icon: Network,
   },
   {
     key: "system-dev",
-    label: "SYSTEM DEVELOPMENT",
+    index: "03",
     title: "System Development",
     description:
-      "Internal tools and systems improvements to streamline workflows and enhance service delivery.",
+      "Internal tools and workflow improvements that make campus IT services faster and clearer to use.",
+    accent: "#FFCC00",
+    Icon: Monitor,
   },
-];
+] as const;
 
 export default function AboutUs() {
-  const [active, setActive] = React.useState<AboutTopic["key"]>("av");
-  const topic = TOPICS.find((t) => t.key === active) ?? TOPICS[0];
+  const [active, setActive] = React.useState<string | null>(FOCUS[0].key);
 
   return (
-    <main className="min-h-screen bg-white">
-      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col md:flex-row">
-        {/* Left */}
-        <div className="flex flex-1 flex-col px-6 py-10 md:px-10">
+    <main className="relative min-h-screen overflow-hidden bg-white text-neutral-900">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 50% at 10% -10%, rgba(10,132,255,0.10), transparent 55%), radial-gradient(ellipse 60% 40% at 95% 5%, rgba(255,149,0,0.08), transparent 50%), radial-gradient(ellipse 50% 35% at 70% 100%, rgba(255,59,48,0.06), transparent 55%)",
+        }}
+      />
+
+      <div className="relative mx-auto flex w-full max-w-5xl flex-col px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
+        <div className="pt-1">
           <Link
             to="/"
-            className="inline-flex w-fit items-center justify-center rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm font-bold text-neutral-900 hover:bg-neutral-50"
+            className="inline-flex items-center gap-1 rounded-full px-0 py-1 text-sm font-medium text-neutral-500 transition hover:text-neutral-900"
           >
-            Back
+            ‹ Back
           </Link>
-
-          <h1 className="mt-10 text-5xl font-extrabold tracking-tight text-neutral-900 md:text-6xl">
-            OUR TEAM
-          </h1>
-
-          <div className="mt-10 max-w-2xl rounded-2xl border border-neutral-200 bg-white p-7">
-            <div className="text-sm font-bold text-neutral-900">{topic.title}</div>
-            <p className="mt-2 text-sm font-semibold leading-relaxed text-neutral-600">{topic.description}</p>
-          </div>
         </div>
 
-        {/* Right */}
-        <aside className="border-t border-neutral-200 md:w-[300px] md:border-l md:border-t-0">
-          <div className="flex h-full flex-col px-6 py-10 md:px-8">
-            <div className="flex flex-1 flex-col gap-2">
-              {TOPICS.map((t) => {
-                const isActive = t.key === active;
-                return (
-                  <button
-                    key={t.key}
-                    type="button"
-                    onClick={() => setActive(t.key)}
-                    className={[
-                      "flex-1 w-full rounded-xl px-4 py-4 text-left text-base font-bold transition md:text-lg",
-                      isActive ? "bg-neutral-900 text-white" : "text-neutral-900 hover:bg-neutral-50",
-                    ].join(" ")}
-                  >
-                    {t.label}
-                  </button>
-                );
-              })}
-            </div>
+        <section className="flex min-h-[70vh] flex-col justify-center gap-8 py-12 sm:py-16">
+          <div className="space-y-5 animate-[aboutIn_0.7s_ease-out_both]">
+            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500">
+              Universiti Kuala Lumpur Royal College Of Medicine Perak
+            </p>
+            <h1 className="max-w-3xl text-4xl font-light tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl">
+              Information Technology{" "}
+              <span className="font-medium">Department</span>
+            </h1>
+            <p className="max-w-xl text-base leading-7 text-neutral-600 sm:text-lg">
+              Campus technology support for teaching and learning, events, and daily operations — from AV and
+              network to development of internal systems.
+            </p>
           </div>
-        </aside>
+        </section>
+
+        <div className="h-px bg-neutral-200/80" />
+
+        <section className="py-14 sm:py-16">
+          <div className="mb-10 max-w-2xl space-y-3 animate-[aboutIn_0.7s_ease-out_0.2s_both]">
+            <p className="text-[11px] font-medium uppercase tracking-[0.09em] text-neutral-500">
+              What we cover
+            </p>
+            <h2 className="text-2xl font-light tracking-tight text-neutral-900 sm:text-3xl">
+              Four focus areas.{" "}
+              <span className="font-medium">One campus team.</span>
+            </h2>
+          </div>
+
+          <ul className="flex flex-col">
+            {FOCUS.map((item, i) => {
+              const open = active === item.key;
+              return (
+                <li
+                  key={item.key}
+                  className="border-t border-neutral-200/80 last:border-b animate-[aboutIn_0.65s_ease-out_both]"
+                  style={{ animationDelay: `${0.28 + i * 0.07}s` }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setActive(open ? null : item.key)}
+                    aria-expanded={open}
+                    className="group flex w-full items-start gap-4 py-5 text-left transition sm:gap-6 sm:py-6"
+                  >
+                    <span
+                      className="mt-1 font-mono text-xs font-medium tracking-wider tabular-nums"
+                      style={{ color: item.accent }}
+                    >
+                      {item.index}
+                    </span>
+
+                    <span
+                      className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105"
+                      style={{ backgroundColor: `${item.accent}18`, color: item.accent === "#FFCC00" ? "#1a1a1a" : item.accent }}
+                    >
+                      <item.Icon className="h-4 w-4" strokeWidth={2.2} />
+                    </span>
+
+                    <span className="min-w-0 flex-1">
+                      <span className="flex items-center justify-between gap-3">
+                        <span className="text-base font-medium text-neutral-900 sm:text-lg">
+                          {item.title}
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="inline-block shrink-0 text-lg text-neutral-400 transition-transform duration-200"
+                          style={{ transform: open ? "rotate(90deg)" : "rotate(0deg)" }}
+                        >
+                          ›
+                        </span>
+                      </span>
+                      <span
+                        className={[
+                          "grid transition-[grid-template-rows,opacity] duration-300 ease-out",
+                          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                        ].join(" ")}
+                      >
+                        <span className="overflow-hidden">
+                          <span className="mt-2 block max-w-2xl text-sm leading-6 text-neutral-600 sm:text-[15px] sm:leading-7">
+                            {item.description}
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
+        <footer className="border-t border-neutral-200/80 pb-6 pt-8">
+          <p className="text-right text-xs font-medium text-neutral-400">
+            © 2026 Information Technology Department RCMP
+          </p>
+        </footer>
       </div>
+
+      <style>{`
+        @keyframes aboutIn {
+          from { opacity: 0; transform: translateY(14px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </main>
   );
 }
-
