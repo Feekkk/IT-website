@@ -1,4 +1,5 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { nitro } from "nitro/vite";
 import { loadEnv, type Plugin } from "vite";
 
 function mysqlEnvPlugin(): Plugin {
@@ -20,7 +21,7 @@ export default defineConfig({
   tanstackStart: {
     prerender: {
       enabled: true,
-      filter: ({ path }) =>
+      filter: ({ path }: { path: string }) =>
         path !== "/feedback" &&
         !path.startsWith("/feedback/") &&
         !path.startsWith("/admin"),
@@ -28,6 +29,11 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
-    plugins: [mysqlEnvPlugin()],
+    plugins: [
+      mysqlEnvPlugin(),
+      nitro({
+        preset: "node-server",
+      }),
+    ],
   },
 });
