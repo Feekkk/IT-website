@@ -1,5 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import {
+  clearAuthSession,
+  loginWithCredentials,
+  readAuthSession,
+} from "@/lib/auth.server";
 
 export type AuthUser = {
   id: number;
@@ -13,18 +18,13 @@ export const loginUser = createServerFn({ method: "POST" })
       password: z.string().min(1),
     }),
   )
-  .handler(async ({ data }) => {
-    const { loginWithCredentials } = await import("@/lib/auth.server");
-    return loginWithCredentials(data);
-  });
+  .handler(async ({ data }) => loginWithCredentials(data));
 
-export const getAuthUser = createServerFn({ method: "GET" }).handler(async () => {
-  const { readAuthSession } = await import("@/lib/auth.server");
-  return readAuthSession();
-});
+export const getAuthUser = createServerFn({ method: "GET" }).handler(async () =>
+  readAuthSession(),
+);
 
 export const logoutUser = createServerFn({ method: "POST" }).handler(async () => {
-  const { clearAuthSession } = await import("@/lib/auth.server");
   clearAuthSession();
   return { ok: true as const };
 });

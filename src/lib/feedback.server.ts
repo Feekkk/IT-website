@@ -1,5 +1,5 @@
 import type { ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import { getDb, query } from "@/lib/db";
+import { getDb, query } from "@/lib/db.server";
 import { CATEGORIES, RATING_LABELS, type Category } from "@/lib/feedback";
 
 const RATING_SCORE: Record<(typeof RATING_LABELS)[number], number> = {

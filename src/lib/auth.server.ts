@@ -5,7 +5,7 @@ import {
   getRequestProtocol,
   setCookie,
 } from "@tanstack/react-start/server";
-import { formatDbError, query } from "@/lib/db";
+import { formatDbError, query } from "@/lib/db.server";
 
 export type AuthUser = {
   id: number;
@@ -69,7 +69,13 @@ export async function loginWithCredentials(input: {
     return { ok: true, user };
   } catch (error) {
     console.error("loginWithCredentials failed:", error);
-    return { ok: false, error: `Database error: ${formatDbError(error)}` };
+    const err = error as { path?: string; syscall?: string; code?: string; message?: string };
+    const pathInfo = err.path ? ` path=${err.path}` : "";
+    const syscallInfo = err.syscall ? ` syscall=${err.syscall}` : "";
+    return {
+      ok: false,
+      error: `Database error: ${formatDbError(error)}${syscallInfo}${pathInfo}`,
+    };
   }
 }
 

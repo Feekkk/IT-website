@@ -19,6 +19,13 @@ function mysqlEnvPlugin(): Plugin {
 export default defineConfig({
   cloudflare: false,
   tanstackStart: {
+    importProtection: {
+      behavior: "error",
+      client: {
+        files: ["**/*.server.*", "**/server/**"],
+        specifiers: ["server-only", "@tanstack/react-start/server"],
+      },
+    },
     prerender: {
       enabled: true,
       filter: ({ path }: { path: string }) =>
