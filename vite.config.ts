@@ -17,7 +17,13 @@ function mysqlEnvPlugin(): Plugin {
 
 export default defineConfig({
   tanstackStart: {
-    prerender: { enabled: true },
+    prerender: {
+      enabled: true,
+      filter: ({ path }) =>
+        path !== "/feedback" &&
+        !path.startsWith("/feedback/") &&
+        !path.startsWith("/admin"),
+    },
     server: { entry: "server" },
   },
   vite: {

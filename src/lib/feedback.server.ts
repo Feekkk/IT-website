@@ -221,24 +221,29 @@ export async function getFeedbackStats(filter: FeedbackStatsFilter): Promise<Fee
 }
 
 export async function listFeedbackQuestions(): Promise<FeedbackQuestion[]> {
-  const rows = await query<FeedbackQuestionRow[]>(`
-    SELECT
-      fq.id,
-      fq.sort_order,
-      fq.question,
-      COUNT(fr.id) AS response_count
-    FROM feedback_question fq
-    LEFT JOIN feedback_rating fr ON fr.question_id = fq.id
-    GROUP BY fq.id, fq.sort_order, fq.question
-    ORDER BY fq.sort_order ASC
-  `);
+  try {
+    const rows = await query<FeedbackQuestionRow[]>(`
+      SELECT
+        fq.id,
+        fq.sort_order,
+        fq.question,
+        COUNT(fr.id) AS response_count
+      FROM feedback_question fq
+      LEFT JOIN feedback_rating fr ON fr.question_id = fq.id
+      GROUP BY fq.id, fq.sort_order, fq.question
+      ORDER BY fq.sort_order ASC
+    `);
 
-  return rows.map((row) => ({
-    id: Number(row.id),
-    sortOrder: Number(row.sort_order),
-    question: row.question,
-    responseCount: Number(row.response_count),
-  }));
+    return rows.map((row) => ({
+      id: Number(row.id),
+      sortOrder: Number(row.sort_order),
+      question: row.question,
+      responseCount: Number(row.response_count),
+    }));
+  } catch (error) {
+    console.error("listFeedbackQuestions failed:", error);
+    return [];
+  }
 }
 
 export async function createFeedbackQuestion(input: {

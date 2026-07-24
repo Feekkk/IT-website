@@ -4,8 +4,13 @@ import { listFeedbackQuestions } from "@/lib/feedback-api";
 
 export const Route = createFileRoute("/feedback")({
   loader: async () => {
-    const questions = await listFeedbackQuestions();
-    return { questions };
+    try {
+      const questions = await listFeedbackQuestions();
+      return { questions };
+    } catch (error) {
+      console.error("Failed to load feedback questions:", error);
+      return { questions: [] };
+    }
   },
   component: FeedbackForm,
 });
