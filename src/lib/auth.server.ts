@@ -45,8 +45,6 @@ export async function loginWithCredentials(input: {
   email: string;
   password: string;
 }): Promise<{ ok: true; user: AuthUser } | { ok: false; error: string }> {
-  let user: AuthUser;
-
   try {
     const rows = await query<UserRow[]>(
       "SELECT id, email FROM users WHERE email = ? AND password = ? LIMIT 1",
@@ -58,13 +56,8 @@ export async function loginWithCredentials(input: {
       return { ok: false, error: "Invalid email or password." };
     }
 
-    user = { id: Number(row.id), email: String(row.email) };
-  } catch (error) {
-    console.error("loginWithCredentials query failed:", error);
-    return { ok: false, error: `Database error: ${formatDbError(error)}` };
-  }
+    const user: AuthUser = { id: Number(row.id), email: String(row.email) };
 
-  try {
     setCookie(SESSION_COOKIE, encodeSession(user), {
       httpOnly: true,
       path: "/",
@@ -72,15 +65,12 @@ export async function loginWithCredentials(input: {
       secure: getRequestProtocol() === "https",
       maxAge: SESSION_MAX_AGE,
     });
-  } catch (error) {
-    console.error("loginWithCredentials cookie failed:", error);
-    return {
-      ok: false,
-      error: `Session cookie failed: ${error instanceof Error ? error.message : String(error)}`,
-    };
-  }
 
-  return { ok: true, user };
+    return { ok: true, user };
+  } catch (error) {
+    console.error("loginWithCredentials failed:", error);
+    return { ok: false, error: `Database error: ${formatDbError(error)}` };
+  }
 }
 
 export function readAuthSession(): AuthUser | null {
