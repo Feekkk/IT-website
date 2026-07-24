@@ -3,8 +3,16 @@ import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { Eye, EyeOff } from "lucide-react";
 import { loginUser } from "@/lib/auth";
+import { createSeoHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/login")({
+  head: () =>
+    createSeoHead({
+      title: "Sign in",
+      description: "Staff sign-in for the RCMP IT Department admin area.",
+      path: "/login",
+      noIndex: true,
+    }),
   component: LoginPage,
 });
 

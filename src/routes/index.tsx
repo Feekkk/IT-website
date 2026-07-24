@@ -3,8 +3,22 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { Wifi, Monitor, GraduationCap, LayoutDashboard, Projector, Cloud, Headphones, Megaphone } from "lucide-react";
 import { MaxhubSection } from "../components/section/Maxhub";
 import { SystemSection } from "../components/section/System";
+import {
+  DEFAULT_DESCRIPTION,
+  SITE_NAME,
+  createSeoHead,
+  organizationJsonLd,
+  webSiteJsonLd,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
+  head: () =>
+    createSeoHead({
+      title: SITE_NAME,
+      description: DEFAULT_DESCRIPTION,
+      path: "/",
+      jsonLd: [organizationJsonLd(), webSiteJsonLd()],
+    }),
   component: Index,
 });
 

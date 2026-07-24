@@ -2,13 +2,16 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import { nitro } from "nitro/vite";
 import { loadEnv, type Plugin } from "vite";
 
+const SERVER_ENV_KEYS = ["SITE_URL", "VITE_SITE_URL"] as const;
+
 function mysqlEnvPlugin(): Plugin {
   return {
-    name: "mysql-env",
+    name: "app-env",
     config(_, { mode }) {
       const env = loadEnv(mode, process.cwd(), "");
       for (const [key, value] of Object.entries(env)) {
-        if (key.startsWith("MYSQL_") && process.env[key] === undefined) {
+        if (process.env[key] !== undefined) continue;
+        if (key.startsWith("MYSQL_") || SERVER_ENV_KEYS.includes(key as (typeof SERVER_ENV_KEYS)[number])) {
           process.env[key] = value;
         }
       }

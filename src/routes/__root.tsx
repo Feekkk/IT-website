@@ -9,6 +9,11 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import {
+  DEFAULT_DESCRIPTION,
+  SITE_NAME,
+  createSeoHead,
+} from "@/lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -68,32 +73,36 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "RCMP IT Department" },
-      { name: "description", content: "RCMP IT Department Website" },
-      { name: "author", content: "RCMP IT Department" },
-      { property: "og:title", content: "RCMP IT Department" },
-      { property: "og:description", content: "RCMP IT Department Website" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@RCMP IT Department" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap",
-      },
-    ],
-  }),
+  head: () => {
+    const seo = createSeoHead({
+      title: SITE_NAME,
+      description: DEFAULT_DESCRIPTION,
+      path: "/",
+    });
+
+    return {
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "author", content: SITE_NAME },
+        { name: "theme-color", content: "#0A84FF" },
+        ...seo.meta,
+      ],
+      links: [
+        { rel: "stylesheet", href: appCss },
+        { rel: "icon", href: "/rcmp.png", type: "image/png" },
+        { rel: "apple-touch-icon", href: "/rcmp.png" },
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap",
+        },
+        ...seo.links,
+      ],
+      scripts: seo.scripts,
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

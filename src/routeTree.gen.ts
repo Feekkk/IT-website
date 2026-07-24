@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InformationRouteImport } from './routes/information'
 import { Route as FeedbackRouteImport } from './routes/feedback'
@@ -18,6 +20,16 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminManageFeedbackRouteImport } from './routes/admin.manage-feedback'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -66,6 +78,8 @@ export interface FileRoutesByFullPath {
   '/feedback': typeof FeedbackRoute
   '/information': typeof InformationRoute
   '/login': typeof LoginRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/manage-feedback': typeof AdminManageFeedbackRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -75,6 +89,8 @@ export interface FileRoutesByTo {
   '/feedback': typeof FeedbackRoute
   '/information': typeof InformationRoute
   '/login': typeof LoginRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/manage-feedback': typeof AdminManageFeedbackRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -86,6 +102,8 @@ export interface FileRoutesById {
   '/feedback': typeof FeedbackRoute
   '/information': typeof InformationRoute
   '/login': typeof LoginRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/manage-feedback': typeof AdminManageFeedbackRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -98,6 +116,8 @@ export interface FileRouteTypes {
     | '/feedback'
     | '/information'
     | '/login'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/admin/manage-feedback'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -107,6 +127,8 @@ export interface FileRouteTypes {
     | '/feedback'
     | '/information'
     | '/login'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/admin/manage-feedback'
     | '/admin'
   id:
@@ -117,6 +139,8 @@ export interface FileRouteTypes {
     | '/feedback'
     | '/information'
     | '/login'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/admin/manage-feedback'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -128,10 +152,26 @@ export interface RootRouteChildren {
   FeedbackRoute: typeof FeedbackRoute
   InformationRoute: typeof InformationRoute
   LoginRoute: typeof LoginRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -210,6 +250,8 @@ const rootRouteChildren: RootRouteChildren = {
   FeedbackRoute: FeedbackRoute,
   InformationRoute: InformationRoute,
   LoginRoute: LoginRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
