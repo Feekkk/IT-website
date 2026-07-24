@@ -109,6 +109,24 @@ export async function getAvailableYears(): Promise<number[]> {
 }
 
 export async function getFeedbackStats(filter: FeedbackStatsFilter): Promise<FeedbackStats> {
+  try {
+    return await loadFeedbackStats(filter);
+  } catch (error) {
+    console.error("getFeedbackStats failed:", error);
+    return {
+      filter,
+      availableYears: [filter.year],
+      totalResponses: 0,
+      averageScore: null,
+      byCategory: CATEGORIES.map((category) => ({ category, count: 0 })),
+      byRating: RATING_LABELS.map((rating) => ({ rating, count: 0 })),
+      byQuestion: [],
+      recentSuggestions: [],
+    };
+  }
+}
+
+async function loadFeedbackStats(filter: FeedbackStatsFilter): Promise<FeedbackStats> {
   const { year, month } = filter;
   const dateParams = [year, month];
 
@@ -257,7 +275,7 @@ export async function createFeedbackQuestion(input: {
 
   let sortOrder = input.sortOrder;
   if (sortOrder == null) {
-    const [maxRow] = await query<RowDataPacket & { max_sort: number }[]>(
+    const [maxRow] = await query<(RowDataPacket & { max_sort: number })[]>(
       "SELECT COALESCE(MAX(sort_order), 0) AS max_sort FROM feedback_question",
     );
     sortOrder = Number(maxRow?.max_sort ?? 0) + 1;

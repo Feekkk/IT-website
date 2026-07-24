@@ -57,12 +57,19 @@ export async function loginWithCredentials(input: {
     }
 
     const user: AuthUser = { id: Number(row.id), email: String(row.email) };
+    const forwarded = (() => {
+      try {
+        return getRequestProtocol() === "https";
+      } catch {
+        return false;
+      }
+    })();
 
     setCookie(SESSION_COOKIE, encodeSession(user), {
       httpOnly: true,
       path: "/",
       sameSite: "lax",
-      secure: getRequestProtocol() === "https",
+      secure: forwarded,
       maxAge: SESSION_MAX_AGE,
     });
 

@@ -40,6 +40,9 @@ export default defineConfig({
       mysqlEnvPlugin(),
       nitro({
         preset: "node-server",
+        rollupConfig: {
+          external: ["mysql2", "mysql2/promise"],
+        },
       }),
     ],
   },
