@@ -1,16 +1,46 @@
 import React from "react";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { Eye, EyeOff } from "lucide-react";
+import { loginUser } from "@/lib/auth";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
 });
 
 function LoginPage() {
+  const navigate = useNavigate();
+  const login = useServerFn(loginUser);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const [busy, setBusy] = React.useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    setBusy(true);
+
+    try {
+      const result = await login({
+        data: {
+          email: email.trim(),
+          password,
+        },
+      });
+
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+
+      await navigate({ to: "/admin" });
+    } catch {
+      setError("Unable to sign in. Please try again.");
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -43,7 +73,7 @@ function LoginPage() {
             />
             <div className="space-y-3">
               <h1 className="text-4xl font-light tracking-tight text-neutral-900">
-                ITD <span className="font-medium">STAFF</span>
+                AUTHORIZED <span className="font-medium">STAFF</span>
               </h1>
               <p className="text-base leading-7 text-neutral-600">
                 Login to access the IT Department staff portal.
@@ -75,23 +105,44 @@ function LoginPage() {
               <label htmlFor="password" className="block text-sm font-medium text-neutral-700">
                 Password
               </label>
-              <input
-                id="password"
-                type="password"
-                required
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#0077C8] focus:ring-2 focus:ring-[#0077C8]/20"
-                placeholder="••••••••"
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  required
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 pr-12 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#0077C8] focus:ring-2 focus:ring-[#0077C8]/20"
+                  placeholder="••••••••"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute inset-y-0 right-0 flex items-center px-3.5 text-neutral-400 transition hover:text-neutral-700"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" strokeWidth={1.75} />
+                  ) : (
+                    <Eye className="h-4 w-4" strokeWidth={1.75} />
+                  )}
+                </button>
+              </div>
             </div>
+
+            {error ? (
+              <p className="text-sm font-medium text-red-600" role="alert">
+                {error}
+              </p>
+            ) : null}
 
             <button
               type="submit"
-              className="inline-flex w-full items-center justify-center rounded-full bg-[#0077C8] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0066AD]"
+              disabled={busy}
+              className="inline-flex w-full items-center justify-center rounded-full bg-[#0077C8] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0066AD] disabled:opacity-60"
             >
-              Sign in
+              {busy ? "Signing in…" : "Sign in"}
             </button>
           </form>
         </section>

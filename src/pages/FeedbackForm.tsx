@@ -1,19 +1,19 @@
 import React from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useLoaderData } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { Star } from "lucide-react";
 import Lottie from "lottie-react";
 import { Progress } from "@/components/ui/progress";
+import { submitFeedback, type FeedbackQuestion } from "@/lib/feedback-api";
 import {
   CATEGORIES,
-  QUESTIONS,
   RATING_LABELS,
   SUGGESTION_QUESTION,
-  TOTAL_STEPS,
   type Category,
   type Ratings,
 } from "@/lib/feedback";
 
-const LOADING_MS = 3000;
+const LOADING_MS = 1200;
 const LOTTIE_SRC = "/Wow%20rate.json";
 
 function StarRating({
@@ -70,6 +70,9 @@ function StarRating({
 }
 
 export default function FeedbackForm() {
+  const { questions } = useLoaderData({ from: "/feedback" }) as { questions: FeedbackQuestion[] };
+  const submit = useServerFn(submitFeedback);
+  const totalSteps = questions.length + 2;
   const [step, setStep] = React.useState(0);
   const [category, setCategory] = React.useState<Category | "">("");
   const [ratings, setRatings] = React.useState<Ratings>({});
@@ -97,9 +100,9 @@ export default function FeedbackForm() {
     };
   }, []);
 
-  const progress = ((step + 1) / TOTAL_STEPS) * 100;
+  const progress = ((step + 1) / totalSteps) * 100;
   const isCategoryStep = step === 0;
-  const isSuggestionsStep = step === TOTAL_STEPS - 1;
+  const isSuggestionsStep = step === totalSteps - 1;
   const questionIndex = step - 1;
 
   const goTo = (next: number) => {
@@ -108,7 +111,7 @@ export default function FeedbackForm() {
     setAnimKey((k) => k + 1);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (isCategoryStep) {
       if (!category) {
         setError("Please select a category.");
@@ -131,12 +134,39 @@ export default function FeedbackForm() {
       setError("Please share a suggestion before submitting.");
       return;
     }
+
+    const orderedRatings = questions.map((_, index) => ratings[index] ?? 0);
+    if (orderedRatings.some((rating) => rating < 1)) {
+      setError("Please answer all rating questions.");
+      return;
+    }
+
     setError("");
     setLoading(true);
-    loadingTimer.current = window.setTimeout(() => {
+    const started = Date.now();
+
+    try {
+      const result = await submit({
+        data: {
+          category: category as Category,
+          suggestion: suggestions.trim(),
+          ratings: orderedRatings,
+        },
+      });
+
+      const wait = Math.max(LOADING_MS - (Date.now() - started), 0);
+      loadingTimer.current = window.setTimeout(() => {
+        setLoading(false);
+        if (!result.ok) {
+          setError(result.error);
+          return;
+        }
+        setSubmitted(true);
+      }, wait);
+    } catch {
       setLoading(false);
-      setSubmitted(true);
-    }, LOADING_MS);
+      setError("Unable to submit feedback. Please try again.");
+    }
   };
 
   const handleBack = () => {
@@ -172,27 +202,44 @@ export default function FeedbackForm() {
         </div>
 
         <section className="flex flex-1 flex-col justify-center py-10 sm:py-14">
-          {!submitted && !loading ? (
-            <div className="mb-8 space-y-3">
-              <div className="flex items-end justify-between gap-4">
-                <div className="space-y-1">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500">
-                    Feedback
-                  </p>
-                  <p className="text-sm font-medium text-neutral-700">
-                    Step {step + 1} of {TOTAL_STEPS}
-                  </p>
-                </div>
-                <p className="text-sm tabular-nums text-neutral-500">{Math.round(progress)}%</p>
-              </div>
-              <Progress
-                value={progress}
-                className="h-2 bg-neutral-200 [&>div]:bg-[#0077C8]"
-              />
+          {questions.length === 0 ? (
+            <div className="space-y-4 text-center">
+              <h1 className="text-3xl font-light tracking-tight text-neutral-900">
+                Feedback <span className="font-medium">unavailable</span>
+              </h1>
+              <p className="text-base leading-7 text-neutral-600">
+                There are no questions configured right now. Please check back later.
+              </p>
+              <Link
+                to="/"
+                className="inline-flex items-center justify-center rounded-full bg-neutral-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-neutral-800"
+              >
+                Home
+              </Link>
             </div>
-          ) : null}
+          ) : (
+            <>
+              {!submitted && !loading ? (
+                <div className="mb-8 space-y-3">
+                  <div className="flex items-end justify-between gap-4">
+                    <div className="space-y-1">
+                      <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500">
+                        Feedback
+                      </p>
+                      <p className="text-sm font-medium text-neutral-700">
+                        Step {step + 1} of {totalSteps}
+                      </p>
+                    </div>
+                    <p className="text-sm tabular-nums text-neutral-500">{Math.round(progress)}%</p>
+                  </div>
+                  <Progress
+                    value={progress}
+                    className="h-2 bg-neutral-200 [&>div]:bg-[#0077C8]"
+                  />
+                </div>
+              ) : null}
 
-          {loading ? (
+              {loading ? (
             <div className="flex flex-col items-center justify-center gap-4 animate-[feedbackIn_0.4s_ease-out_both]">
               <div className="mx-auto w-full max-w-xs">
                 {lottieData ? (
@@ -266,7 +313,7 @@ export default function FeedbackForm() {
                         Question {String(questionIndex + 1).padStart(2, "0")}
                       </p>
                       <h1 className="text-2xl font-light leading-snug tracking-tight text-neutral-900 sm:text-3xl">
-                        {QUESTIONS[questionIndex]}
+                        {questions[questionIndex]?.question}
                       </h1>
                     </div>
                     <StarRating
@@ -288,7 +335,7 @@ export default function FeedbackForm() {
                   <div className="space-y-6">
                     <div className="space-y-3">
                       <p className="font-mono text-xs font-medium text-[#0077C8] tabular-nums">
-                        Question 13
+                        Question {String(questions.length + 1).padStart(2, "0")}
                       </p>
                       <h1 className="text-2xl font-light leading-snug tracking-tight text-neutral-900 sm:text-3xl">
                         {SUGGESTION_QUESTION}
@@ -319,7 +366,7 @@ export default function FeedbackForm() {
                 <button
                   type="button"
                   onClick={handleBack}
-                  disabled={step === 0}
+                  disabled={step === 0 || loading}
                   className="rounded-full px-4 py-2.5 text-sm font-semibold text-neutral-600 transition hover:text-neutral-900 disabled:pointer-events-none disabled:opacity-30"
                 >
                   Previous
@@ -327,12 +374,15 @@ export default function FeedbackForm() {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="rounded-full bg-[#0077C8] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0066AD]"
+                  disabled={loading}
+                  className="rounded-full bg-[#0077C8] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0066AD] disabled:opacity-60"
                 >
                   {isSuggestionsStep ? "Submit feedback" : "Continue"}
                 </button>
               </div>
             </div>
+          )}
+            </>
           )}
         </section>
 

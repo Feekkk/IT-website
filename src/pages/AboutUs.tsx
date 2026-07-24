@@ -26,7 +26,7 @@ const FOCUS = [
     index: "03",
     title: "System Development",
     description:
-      "Internal tools and workflow improvements that make campus IT services faster and clearer to use.",
+      "Development of internal systems and tools to improve the efficiency of the university services.",
     accent: "#FFCC00",
     Icon: Monitor,
   },
@@ -148,17 +148,18 @@ export default function AboutUs() {
         </section>
 
         <footer className="border-t border-neutral-200/80 pb-6 pt-8">
-          <div className="flex flex-col items-end gap-2">
-            <p className="text-right text-xs font-medium text-neutral-400">
-              © 2026 Information Technology Department RCMP
-            </p>
+          <p className="text-right text-xs font-medium text-neutral-400">
+            © 2026 Information Technology Department RCMP
+            <span className="mx-2 text-neutral-300" aria-hidden="true">
+              ·
+            </span>
             <Link
               to="/login"
-              className="text-right text-xs font-medium text-neutral-400 transition hover:text-neutral-700"
+              className="text-neutral-300 transition hover:text-neutral-500"
             >
-              Are you ITD staff?
+              Staff
             </Link>
-          </div>
+          </p>
         </footer>
       </div>
 
