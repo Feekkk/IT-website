@@ -30,14 +30,15 @@ function LoginPage() {
         },
       });
 
-      if (!result.ok) {
-        setError(result.error);
+      if (!result?.ok) {
+        setError(result?.error || "Unable to sign in. Please try again.");
         return;
       }
 
       await navigate({ to: "/admin" });
-    } catch {
-      setError("Unable to sign in. Please try again.");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message || "Unable to sign in. Please try again.");
     } finally {
       setBusy(false);
     }

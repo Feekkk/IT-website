@@ -14,8 +14,16 @@ export const loginUser = createServerFn({ method: "POST" })
     }),
   )
   .handler(async ({ data }) => {
-    const { loginWithCredentials } = await import("@/lib/auth.server");
-    return loginWithCredentials(data);
+    try {
+      const { loginWithCredentials } = await import("@/lib/auth.server");
+      return await loginWithCredentials(data);
+    } catch (error) {
+      console.error("loginUser handler failed:", error);
+      return {
+        ok: false as const,
+        error: `Login handler failed: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
   });
 
 export const getAuthUser = createServerFn({ method: "GET" }).handler(async () => {

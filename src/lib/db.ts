@@ -1,6 +1,7 @@
-import { existsSync, readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { createRequire } from "node:module";
 import mysql from "mysql2/promise";
+
+const require = createRequire(import.meta.url);
 
 const globalForDb = globalThis as typeof globalThis & {
   mysqlPool?: mysql.Pool;
@@ -12,6 +13,8 @@ function loadEnvFile() {
   globalForDb.mysqlEnvLoaded = true;
 
   try {
+    const { existsSync, readFileSync } = require("node:fs") as typeof import("node:fs");
+    const { resolve } = require("node:path") as typeof import("node:path");
     const path = resolve(process.cwd(), ".env");
     if (!existsSync(path)) return;
 
@@ -36,7 +39,7 @@ function loadEnvFile() {
       process.env[key] = value;
     }
   } catch {
-    // Cloudflare / non-Node runtimes may not support fs — ignore.
+    // ignore missing fs / .env on non-Node runtimes
   }
 }
 
@@ -51,9 +54,15 @@ function env(name: string, fallback?: string): string {
 
 export function getDb(): mysql.Pool {
   if (!globalForDb.mysqlPool) {
+    loadEnvFile();
+    const socketPath = process.env.MYSQL_SOCKET?.trim();
     globalForDb.mysqlPool = mysql.createPool({
-      host: env("MYSQL_HOST", "127.0.0.1"),
-      port: Number(env("MYSQL_PORT", "3306")),
+      ...(socketPath
+        ? { socketPath }
+        : {
+            host: env("MYSQL_HOST", "127.0.0.1"),
+            port: Number(env("MYSQL_PORT", "3306")),
+          }),
       user: env("MYSQL_USER"),
       password: env("MYSQL_PASSWORD"),
       database: env("MYSQL_DATABASE"),
@@ -71,4 +80,25 @@ export async function query<T extends mysql.RowDataPacket[]>(
 ): Promise<T> {
   const [rows] = await getDb().execute<T>(sql, params);
   return rows;
+}
+
+export function formatDbError(error: unknown): string {
+  if (typeof error !== "object" || error === null) {
+    return String(error);
+  }
+
+  const err = error as {
+    code?: string | number;
+    errno?: number;
+    message?: string;
+    sqlMessage?: string;
+  };
+
+  if (typeof err.message === "string" && err.message.startsWith("Missing required environment variable:")) {
+    return err.message;
+  }
+
+  const code = err.code ?? err.errno;
+  const detail = err.sqlMessage || err.message || "Unknown database error";
+  return code ? `[${code}] ${detail}` : detail;
 }
