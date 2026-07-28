@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "@tanstack/react-router";
-import { Headphones, Monitor, Network, Projector } from "lucide-react";
+
+const ACCENT = "#171717";
 
 const FOCUS = [
   {
@@ -8,82 +9,65 @@ const FOCUS = [
     index: "01",
     title: "Audio & Visual",
     description:
-      "Meeting rooms, displays, projectors, microphones, and presentation setups kept ready for teaching and events.",
-    accent: "#0A84FF",
-    Icon: Projector,
+      "Meeting rooms, displays, projectors and presentation setups kept ready for teaching and events.",
   },
   {
     key: "network",
     index: "02",
     title: "Network",
     description:
-      "Wi‑Fi and LAN support with practical troubleshooting so students and staff stay connected on campus.",
-    accent: "#FF9500",
-    Icon: Network,
+      "Wi‑Fi and LAN support with practical troubleshooting so campus stays connected.",
   },
   {
     key: "system-dev",
     index: "03",
     title: "System Development",
     description:
-      "Development of internal systems and tools to improve the efficiency of the university services.",
-    accent: "#FFCC00",
-    Icon: Monitor,
+      "Internal systems and tools built to improve the efficiency of university services.",
+  },
+  {
+    key: "helpdesk",
+    index: "04",
+    title: "Helpdesk",
+    description:
+      "Day-to-day support for staff and students when technology gets in the way.",
   },
 ] as const;
 
 export default function AboutUs() {
-  const [active, setActive] = React.useState<string | null>(FOCUS[0].key);
+  const [active, setActive] = React.useState<(typeof FOCUS)[number]["key"]>(FOCUS[0].key);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-white text-neutral-900">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 50% at 10% -10%, rgba(10,132,255,0.10), transparent 55%), radial-gradient(ellipse 60% 40% at 95% 5%, rgba(255,149,0,0.08), transparent 50%), radial-gradient(ellipse 50% 35% at 70% 100%, rgba(255,59,48,0.06), transparent 55%)",
-        }}
-      />
-
-      <div className="relative mx-auto flex w-full max-w-5xl flex-col px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
+    <main className="relative min-h-screen overflow-hidden bg-[#F2F2F2] text-neutral-900">
+      <div className="relative mx-auto flex w-full max-w-5xl flex-col px-5 py-5 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
         <div className="pt-1">
           <Link
             to="/"
-            className="inline-flex items-center gap-1 rounded-full px-0 py-1 text-sm font-medium text-neutral-500 transition hover:text-neutral-900"
+            className="inline-flex items-center gap-1 py-1 text-sm font-medium text-neutral-500 transition hover:text-neutral-900"
           >
             ‹ Back
           </Link>
         </div>
 
-        <section className="flex min-h-[70vh] flex-col justify-center gap-8 py-12 sm:py-16">
-          <div className="space-y-5 animate-[aboutIn_0.7s_ease-out_both]">
-            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500">
-              Universiti Kuala Lumpur Royal College Of Medicine Perak
-            </p>
-            <h1 className="max-w-3xl text-4xl font-light tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl">
-              Information Technology{" "}
-              <span className="font-medium">Department</span>
+        <section className="border-b border-neutral-300/70 pb-10 pt-10 sm:pb-14 sm:pt-14 animate-[aboutIn_0.7s_ease-out_both]">
+          <div className="grid gap-6 sm:grid-cols-[1.2fr_0.8fr] sm:items-start sm:gap-10">
+            <h1 className="text-[1.85rem] font-semibold leading-[1.15] tracking-tight text-neutral-950 sm:text-4xl lg:text-[2.75rem]">
+              Support is what people feel.
+              <br />
+              Systems are what keep campus running.
             </h1>
-            <p className="max-w-xl text-base leading-7 text-neutral-600 sm:text-lg">
-              Campus technology support for teaching and learning, events, and daily operations — from AV and
-              network to development of internal systems.
+            <p className="max-w-xs text-sm leading-6 text-neutral-500 sm:ml-auto sm:text-right sm:text-[15px] sm:leading-7">
+              Information Technology Department — UniKL Royal College of Medicine Perak. We shape both: day-to-day help and the infrastructure behind it.
             </p>
           </div>
         </section>
 
-        <div className="h-px bg-neutral-200/80" />
-
-        <section className="py-14 sm:py-16">
-          <div className="mb-10 max-w-2xl space-y-3 animate-[aboutIn_0.7s_ease-out_0.2s_both]">
-            <p className="text-[11px] font-medium uppercase tracking-[0.09em] text-neutral-500">
-              What we cover
-            </p>
-            <h2 className="text-2xl font-light tracking-tight text-neutral-900 sm:text-3xl">
-              Four focus areas.{" "}
-              <span className="font-medium">One campus team.</span>
-            </h2>
-          </div>
+        <section className="relative py-2">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 sm:block"
+            style={{ backgroundColor: ACCENT }}
+          />
 
           <ul className="flex flex-col">
             {FOCUS.map((item, i) => {
@@ -91,54 +75,43 @@ export default function AboutUs() {
               return (
                 <li
                   key={item.key}
-                  className="border-t border-neutral-200/80 last:border-b animate-[aboutIn_0.65s_ease-out_both]"
-                  style={{ animationDelay: `${0.28 + i * 0.07}s` }}
+                  className="border-b border-neutral-300/70 animate-[aboutIn_0.65s_ease-out_both]"
+                  style={{ animationDelay: `${0.15 + i * 0.07}s` }}
                 >
                   <button
                     type="button"
-                    onClick={() => setActive(open ? null : item.key)}
-                    aria-expanded={open}
-                    className="group flex w-full items-start gap-4 py-5 text-left transition sm:gap-6 sm:py-6"
+                    onClick={() => setActive(item.key)}
+                    onMouseEnter={() => setActive(item.key)}
+                    aria-pressed={open}
+                    className="group grid w-full grid-cols-[auto_1fr] items-center gap-x-4 gap-y-2 py-6 text-left sm:grid-cols-[1fr_auto_1fr] sm:gap-x-0 sm:py-7"
                   >
                     <span
-                      className="mt-1 font-mono text-xs font-medium tracking-wider tabular-nums"
-                      style={{ color: item.accent }}
+                      className={[
+                        "order-2 text-lg font-semibold tracking-tight transition-colors duration-200 sm:order-1 sm:pr-8 sm:text-right sm:text-xl",
+                        open ? "text-neutral-950" : "text-neutral-400",
+                      ].join(" ")}
+                    >
+                      {item.title}
+                    </span>
+
+                    <span
+                      className="order-1 flex h-8 w-8 shrink-0 items-center justify-center font-mono text-[11px] font-semibold tabular-nums transition-colors duration-200 sm:order-2 sm:relative sm:z-10"
+                      style={
+                        open
+                          ? { backgroundColor: ACCENT, color: "#fff" }
+                          : { backgroundColor: "#F2F2F2", color: ACCENT, border: `1px solid ${ACCENT}` }
+                      }
                     >
                       {item.index}
                     </span>
 
                     <span
-                      className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105"
-                      style={{ backgroundColor: `${item.accent}18`, color: item.accent === "#FFCC00" ? "#1a1a1a" : item.accent }}
+                      className={[
+                        "order-3 col-span-2 max-w-md text-sm leading-6 transition-colors duration-200 sm:col-span-1 sm:pl-8 sm:text-[15px] sm:leading-7",
+                        open ? "text-neutral-600" : "text-neutral-400",
+                      ].join(" ")}
                     >
-                      <item.Icon className="h-4 w-4" strokeWidth={2.2} />
-                    </span>
-
-                    <span className="min-w-0 flex-1">
-                      <span className="flex items-center justify-between gap-3">
-                        <span className="text-base font-medium text-neutral-900 sm:text-lg">
-                          {item.title}
-                        </span>
-                        <span
-                          aria-hidden="true"
-                          className="inline-block shrink-0 text-lg text-neutral-400 transition-transform duration-200"
-                          style={{ transform: open ? "rotate(90deg)" : "rotate(0deg)" }}
-                        >
-                          ›
-                        </span>
-                      </span>
-                      <span
-                        className={[
-                          "grid transition-[grid-template-rows,opacity] duration-300 ease-out",
-                          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
-                        ].join(" ")}
-                      >
-                        <span className="overflow-hidden">
-                          <span className="mt-2 block max-w-2xl text-sm leading-6 text-neutral-600 sm:text-[15px] sm:leading-7">
-                            {item.description}
-                          </span>
-                        </span>
-                      </span>
+                      {item.description}
                     </span>
                   </button>
                 </li>
@@ -147,7 +120,43 @@ export default function AboutUs() {
           </ul>
         </section>
 
-        <footer className="border-t border-neutral-200/80 pb-6 pt-8">
+        <section className="relative py-12 sm:py-16 animate-[aboutIn_0.7s_ease-out_0.45s_both]">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-0 left-1/2 top-0 hidden w-px -translate-x-1/2 sm:block"
+            style={{ backgroundColor: ACCENT }}
+          />
+
+          <div className="grid gap-10 sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-0">
+            <div className="sm:pr-10 sm:text-right">
+              <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-400">
+                Support
+              </p>
+              <p className="text-sm leading-6 text-neutral-600 sm:text-[15px] sm:leading-7">
+                AV, network and helpdesk that keep teaching, events and daily campus work clear and usable.
+              </p>
+            </div>
+
+            <div
+              aria-hidden="true"
+              className="relative z-10 mx-auto hidden h-7 w-7 items-center justify-center bg-[#F2F2F2] font-mono text-[10px] text-neutral-500 sm:flex"
+              style={{ color: ACCENT }}
+            >
+              [■]
+            </div>
+
+            <div className="sm:pl-10">
+              <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-400">
+                Systems
+              </p>
+              <p className="text-sm leading-6 text-neutral-600 sm:text-[15px] sm:leading-7">
+                Architecture, tools and internal development that keep services stable, efficient and ready to grow.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <footer className="border-t border-neutral-300/70 pb-6 pt-8">
           <p className="text-right text-xs font-medium text-neutral-400">
             © 2026 Information Technology Department RCMP
             <span className="mx-2 text-neutral-300" aria-hidden="true">

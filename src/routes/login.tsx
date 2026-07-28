@@ -53,110 +53,100 @@ function LoginPage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-white text-neutral-900">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 50% at 10% -10%, rgba(0,119,200,0.10), transparent 55%), radial-gradient(ellipse 60% 40% at 95% 5%, rgba(10,132,255,0.08), transparent 50%)",
-        }}
-      />
-
-      <div className="relative mx-auto flex min-h-screen w-full max-w-md flex-col px-4 py-4 sm:px-6 sm:py-6">
+    <main className="relative min-h-screen overflow-hidden bg-[#F2F2F2] text-neutral-900">
+      <div className="relative mx-auto flex min-h-screen w-full max-w-6xl flex-col px-5 py-5 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
         <div className="pt-1">
           <Link
             to="/about"
-            className="inline-flex items-center gap-1 rounded-full px-0 py-1 text-sm font-medium text-neutral-500 transition hover:text-neutral-900"
+            className="inline-flex items-center gap-1 py-1 text-sm font-medium text-neutral-500 transition hover:text-neutral-900"
           >
             ‹ Back
           </Link>
         </div>
 
-        <section className="flex flex-1 flex-col justify-center py-12">
-          <div className="mb-10 space-y-5 animate-[loginIn_0.7s_ease-out_both]">
+        <div className="flex flex-1 flex-col lg:grid lg:grid-cols-2 lg:items-center lg:gap-16 xl:gap-24">
+          <section className="border-b border-neutral-300/70 py-10 lg:border-b-0 lg:border-r lg:py-0 lg:pr-16 xl:pr-24 animate-[loginIn_0.7s_ease-out_both]">
             <img
               src="/unikl-official.png"
               alt="UniKL Royal College of Medicine Perak"
-              className="h-12 w-auto object-contain sm:h-14"
+              className="mb-8 h-12 w-auto object-contain sm:h-14"
             />
-            <div className="space-y-3">
-              <h1 className="text-4xl font-light tracking-tight text-neutral-900">
-                AUTHORIZED <span className="font-medium">STAFF</span>
-              </h1>
-              <p className="text-base leading-7 text-neutral-600">
-                Login to access the IT Department staff portal.
-              </p>
-            </div>
-          </div>
+            <h1 className="text-[1.85rem] font-semibold leading-[1.15] tracking-tight text-neutral-950 sm:text-4xl lg:text-[2.75rem]">
+              Authorized staff.
+              <br />
+              IT Department portal.
+            </h1>
+            <p className="mt-5 max-w-md text-sm leading-6 text-neutral-500 sm:text-[15px] sm:leading-7">
+              Sign in to access the Information Technology Department staff area for UniKL Royal College of Medicine Perak.
+            </p>
+          </section>
 
-          <form
-            onSubmit={handleSubmit}
-            className="animate-[loginIn_0.7s_ease-out_0.12s_both] space-y-5"
-          >
-            <div className="space-y-2">
-              <label htmlFor="email" className="block text-sm font-medium text-neutral-700">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#0077C8] focus:ring-2 focus:ring-[#0077C8]/20"
-                placeholder="you@example.com"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="password" className="block text-sm font-medium text-neutral-700">
-                Password
-              </label>
-              <div className="relative">
+          <section className="flex flex-1 flex-col justify-center py-10 lg:py-0 animate-[loginIn_0.7s_ease-out_0.12s_both]">
+            <form onSubmit={handleSubmit} className="mx-auto w-full max-w-md space-y-5 lg:mx-0 lg:max-w-sm">
+              <div className="space-y-2">
+                <label htmlFor="email" className="block text-sm font-medium text-neutral-700">
+                  Email
+                </label>
                 <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
+                  id="email"
+                  type="email"
                   required
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 pr-12 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-[#0077C8] focus:ring-2 focus:ring-[#0077C8]/20"
-                  placeholder="••••••••"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full border border-neutral-300 bg-white px-4 py-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900"
+                  placeholder="you@example.com"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((v) => !v)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  className="absolute inset-y-0 right-0 flex items-center px-3.5 text-neutral-400 transition hover:text-neutral-700"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" strokeWidth={1.75} />
-                  ) : (
-                    <Eye className="h-4 w-4" strokeWidth={1.75} />
-                  )}
-                </button>
               </div>
-            </div>
 
-            {error ? (
-              <p className="text-sm font-medium text-red-600" role="alert">
-                {error}
-              </p>
-            ) : null}
+              <div className="space-y-2">
+                <label htmlFor="password" className="block text-sm font-medium text-neutral-700">
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full border border-neutral-300 bg-white px-4 py-3 pr-12 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900"
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    className="absolute inset-y-0 right-0 flex items-center px-3.5 text-neutral-400 transition hover:text-neutral-700"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" strokeWidth={1.75} />
+                    ) : (
+                      <Eye className="h-4 w-4" strokeWidth={1.75} />
+                    )}
+                  </button>
+                </div>
+              </div>
 
-            <button
-              type="submit"
-              disabled={busy}
-              className="inline-flex w-full items-center justify-center rounded-full bg-[#0077C8] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0066AD] disabled:opacity-60"
-            >
-              {busy ? "Signing in…" : "Sign in"}
-            </button>
-          </form>
-        </section>
+              {error ? (
+                <p className="text-sm font-medium text-red-600" role="alert">
+                  {error}
+                </p>
+              ) : null}
 
-        <footer className="border-t border-neutral-200/80 pb-6 pt-8">
+              <button
+                type="submit"
+                disabled={busy}
+                className="inline-flex w-full items-center justify-center rounded-full bg-neutral-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-neutral-800 disabled:opacity-60"
+              >
+                {busy ? "Signing in…" : "Sign in"}
+              </button>
+            </form>
+          </section>
+        </div>
+
+        <footer className="border-t border-neutral-300/70 pb-6 pt-8">
           <p className="text-right text-xs font-medium text-neutral-400">
             © 2026 Information Technology Department RCMP
           </p>
